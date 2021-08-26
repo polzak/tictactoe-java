@@ -79,19 +79,66 @@ public class Main {
         }
 
         // Display the board
-        char[] r1 = input.substring(0, 3).toCharArray();
-        char[] r2 = input.substring(3, 6).toCharArray();
-        char[] r3 = input.substring(6).toCharArray();
-
-        String l1 = WALL + SPACE + r1[0] + SPACE + r1[1] + SPACE + r1[2] + SPACE + WALL;
-        String l2 = WALL + SPACE + r2[0] + SPACE + r2[1] + SPACE + r2[2] + SPACE + WALL;
-        String l3 = WALL + SPACE + r3[0] + SPACE + r3[1] + SPACE + r3[2] + SPACE + WALL;
+        String l1 = WALL + SPACE + board[0] + SPACE + board[1] + SPACE + board[2] + SPACE + WALL;
+        String l2 = WALL + SPACE + board[3] + SPACE + board[4] + SPACE + board[5] + SPACE + WALL;
+        String l3 = WALL + SPACE + board[6] + SPACE + board[7] + SPACE + board[8] + SPACE + WALL;
 
         System.out.println(FLOOR);
         System.out.println(l1);
         System.out.println(l2);
         System.out.println(l3);
         System.out.println(FLOOR);
-        System.out.println(result);
+        //System.out.println(result);
+
+        // Get input for a user's move
+        scanner.nextLine();
+
+        int row_pos = 0;
+        int col_pos = 0;
+        int board_pos = 0;
+
+        while (true) {
+            System.out.print("Enter the coordinates: ");
+            String coordinates = scanner.nextLine();
+            String[] pos = coordinates.split(" ");
+
+            try {
+                row_pos = Integer.parseInt(pos[0]);
+                col_pos = Integer.parseInt(pos[1]);
+            } catch (NumberFormatException ne) {
+                System.out.println("You should enter numbers!");
+                continue;
+            }
+
+            // Check if the move is valid for a grid range
+            if (row_pos > 3 || col_pos > 3) {
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            }
+
+            // The board is from 0 to 8
+            // Change the positions into the real position in the board.
+            board_pos = (row_pos - 1) * 3 + (col_pos - 1);
+
+            // Check if the board position is already occupied.
+            if (board[board_pos] == 'X' || board[board_pos] == 'O') {
+                System.out.println("This cell is occupied! Choose another one!");
+            } else {
+                break;
+            }
+        }
+
+        board[board_pos] = 'X';
+
+        // Display the board again.
+        l1 = WALL + SPACE + board[0] + SPACE + board[1] + SPACE + board[2] + SPACE + WALL;
+        l2 = WALL + SPACE + board[3] + SPACE + board[4] + SPACE + board[5] + SPACE + WALL;
+        l3 = WALL + SPACE + board[6] + SPACE + board[7] + SPACE + board[8] + SPACE + WALL;
+
+        System.out.println(FLOOR);
+        System.out.println(l1);
+        System.out.println(l2);
+        System.out.println(l3);
+        System.out.println(FLOOR);
     }
 }
